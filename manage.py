@@ -6,9 +6,6 @@ from flask_assets import ManageAssets
 from flask_script import Manager
 from pymongo import MongoClient
 
-client = MongoClient(host=os.environ.get('MONGODB_URI'))
-db = client.get_default_database()
-
 
 manager = Manager(app)
 manager.add_command('assets', ManageAssets())
