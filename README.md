@@ -8,50 +8,72 @@
 This is the repository of [Forum Organisation](https://www.forumorg.org)'s official website.
 
 ## Getting Started
-
 These instructions will get help get your own copy of the project running on your local machine for development and testing purposes.
 
-### Requirements
+#### Install
+In order to run this project, you will need [Docker CE](https://docs.docker.com/install/) installed in your machine.
 
-To get your development environment running, you need:
-
-- [python 3](https://www.python.org/downloads/)
-- [bower](https://bower.io/#install-bower)
-- [mongodb](https://www.mongodb.com/download-center#community)
-
-### Install
-
-To install the necessary dependencies:
+To check if it's been installed correctly, run `docker --version && docker-compose --version` and see if it returns something like this:
 
 ```sh
-git clone https://github.com/ForumOrganisation/forumorg.git
-cd forumorg && pip install -r requirements.txt
-bower install
-```
-
-### Configuration
-To start the project, you need to provide the following environment variables:
-
-```sh
-export MONGODB_URI="mongodb://host:port/dbname" # Required: local running mongodb instance
-export BUCKET_NAME="bucket_name" # Required: S3 bucket name
-export DEBUG=True # Optional: Nice for debugging
-export SENDGRID_API_KEY="sendgrid_key" # Optional: for emailing events
+Docker version 17.09.0-ce, build afdb6d4
+docker-compose version 1.16.1, build 6d1ac21
 ```
 
 ### Run
+First of all, you need to checkout the project:
 ```sh
-python runserver.py
+git clone https://github.com/ForumOrganisation/forumorg.git
 ```
 
-## Deploying
-We use Heroku for Cloud hosting and Continuous Integration, using this continuous delivery workflow:
+Then you need to fill the following environment variables in a `.env` file at the root of the project:
 
-- A developer creates a pull request to make a change to the codebase.
-- Heroku automatically creates a review app for the pull request, allowing developers to test the change.
-- When the change is ready, it’s merged into the codebase’s master branch.
-- The master branch is automatically deployed to [staging](https://forumorg-staging.herokuapp.com) for further testing.
-- When it’s ready, the staging app is promoted to [production](https://www.forumorg.org), where the change is available to end users of the app.
+```sh
+BUCKET_NAME="bucket_name" # Required: S3 bucket name
+SENDGRID_API_KEY="sendgrid_key" # Optional: for emailing events
+RECAPTCHA_SECRET_KEY="recaptcha_key" # Optional: for recaptcha forms
+```
+
+Finally, run `docker-compose up -d` and your app should be deployed at http://localhost:5000
+
+### Develop
+* Change some files, make some code then refresh the page: you should see your changes applied!
+* Log your app behaviour by inspecting it with `docker-compose logs web`
+* Commit at the end of your work and follow the deploy steps.
+
+### Deploy
+We use Heroku for Cloud hosting and Continuous Integration.
+
+#### Heroku CLI
+The Heroku Command Line Interface (CLI) makes it easy to create and manage your Heroku apps directly from the terminal.
+It’s an essential part of using Heroku. Install it by following [these guidelines](https://devcenter.heroku.com/articles/heroku-cli#download-and-install).
+
+Heroku can be set to recognize your working app directory as the deployed heroku app(s), by adding the following git remotes:
+
+```sh
+git remote add production https://git.heroku.com/forumorg-prod.git
+git remote add staging https://git.heroku.com/forumorg-staging.git
+```
+
+#### Deployment process
+On ```any pull request``` ([see how](https://help.github.com/articles/creating-a-pull-request/)):
+- A temporary review app is created, which can be live tested.
+- If everything is working OK, the PR can be merged into `master`.
+
+On ```push to master```:
+- A build is triggered on our [staging app](https://forumorg-staging.herokuapp.com) (useful for testing in a production-like environment).
+
+On ```heroku pipelines:promote -r staging --to production```:
+- The staging app is instantly deployed to [production](https://www.forumorg.org).
+
+## Running scripts
+Some tasks on the platform requires one-off execution of scripts, like batch updates performed in database.
+
+You can execute a script by adding it to **manage.py** as a python function, then run:
+
+```sh
+heroku local:run python manage.py my_script
+```
 
 ## Localization
 The app is localized using:
@@ -63,7 +85,9 @@ You can get familiar with the process [by following this tutorial](https://phras
 
 ## Contributions
 
-Contributions are very welcome! If you find a bug or some improvements, feel free to raise an issue and send a PR! Please see the [CONTRIBUTING](CONTRIBUTING.md) file for more information on how to contribute.
+Contributions are very welcome! If you find a bug or some improvements, feel free to raise an issue and send a PR!
+
+Please see the [CONTRIBUTING](CONTRIBUTING.md) file for more information on how to contribute.
 
 ## Authors
 
