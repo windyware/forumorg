@@ -36,7 +36,7 @@ pymongo==3.6.1
 python-dateutil==2.7.0
 python-http-client==3.0.0
 pytz==2018.3
-qrcode==5.3
+qrcode==6.0
 requests==2.18.4
 s3transfer==0.1.13
 sendgrid==5.3.0
