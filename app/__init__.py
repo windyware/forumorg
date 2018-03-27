@@ -9,7 +9,6 @@ from flask_assets import Environment
 from flask_babelex import Babel, Domain
 from flask_bcrypt import Bcrypt
 from flask_cdn import CDN
-from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_qrcode import QRcode
 from flask_sslify import SSLify
@@ -31,12 +30,11 @@ app.debug = bool(os.environ.get('DEBUG', False))
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'my_debug_key')
 app.config['SECURITY_PASSWORD_SALT'] = os.environ.get('FLASK_PASSWORD_SALT', 'my_debug_salt')
 app.config['TOKEN_EXPIRATION'] = int(os.environ.get('TOKEN_EXPIRATION', 7200))
-app.config['PASSWORD_TOKEN_EXPIRATION'] = int(os.environ.get('PASSWORD_TOKEN_EXPIRATION',600))#needs to be shorter for security reasons
+app.config['PASSWORD_TOKEN_EXPIRATION'] = int(os.environ.get('PASSWORD_TOKEN_EXPIRATION', 600)) #needs to be shorter for security reasons
 app.config['CDN_DOMAIN'] = os.environ.get('CLOUDFRONT_DOMAIN')
 app.config['CDN_DEBUG'] = app.debug
 app.config['CDN_HTTPS'] = True
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['BABEL_DEFAULT_LOCALE'] = 'fr'
 app.jinja_env.add_extension('jinja2_time.TimeExtension')
 
@@ -56,10 +54,6 @@ qrcode.init_app(app)
 domain = Domain(dirname='translations')
 babel = Babel(default_domain=domain)
 babel.init_app(app)
-
-# Toolbar
-toolbar = DebugToolbarExtension()
-toolbar.init_app(app)
 
 # Flask-Assets
 from .assets import bundles

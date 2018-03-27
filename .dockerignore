@@ -1,0 +1,11 @@
+*.py[co]
+*.DS_*
+
+# Packages
+.env
+messages.pot
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
