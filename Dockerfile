@@ -1,13 +1,9 @@
 FROM python:alpine
 
+# Setting environement variables from docker-compose
 ARG PORT
 ARG MONGODB_URI
 ARG DEBUG
-
-ENV APP_DIR=/app
-ENV INTL_DIR=./app/static/bower_components/intl-tel-input/build/img
-
-WORKDIR $APP_DIR
 
 # Installing packages
 RUN apk update \
@@ -23,19 +19,17 @@ RUN apk update \
 
 RUN npm install -g bower
 
-# Install bower & dependencies
-COPY ./bower.json .
-RUN bower install --allow-root --config.interactive=false -f bower.json
+WORKDIR /app
 
 # Install pip dependencies
 COPY ./requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy & build assets
-COPY $INTL_DIR $APP_DIR/$INTL_DIR
+# Install bower & dependencies
+COPY . $APP_DIR
+RUN bower install --allow-root --config.interactive=false -f bower.json
+
+# Build assets
 RUN python manage.py assets build
-
-# Cleaning up everything
-RUN apk del .build_deps && rm -rf /var/cache/apk/*
 
 CMD ["gunicorn", "app:app"]

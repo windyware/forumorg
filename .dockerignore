@@ -3,19 +3,9 @@
 
 # Packages
 .env
-/env
 messages.pot
-app/static/.webassets-cache/
 
 # Docker
 Dockerfile
 docker-compose.yml
 .dockerignore
-
-# Assets
-app/static/bower_components/*
-!app/static/bower_components/intl-tel-input
-app/static/bower_components/intl-tel-input/*
-!app/static/bower_components/intl-tel-input/build
-app/static/bower_components/intl-tel-input/build/*
-!app/static/bower_components/intl-tel-input/build/img
