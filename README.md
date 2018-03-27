@@ -11,7 +11,7 @@ This is the repository of [Forum Organisation](https://www.forumorg.org)'s offic
 These instructions will get help get your own copy of the project running on your local machine for development and testing purposes.
 
 #### Install
-In order to run this project, you will need [Docker CE](https://docs.docker.com/install/) installed in your machine.
+First, you will need [Docker CE](https://docs.docker.com/install/) installed in your machine.
 
 To check if it's been installed correctly, run `docker --version && docker-compose --version` and see if it returns something like this:
 
@@ -21,12 +21,12 @@ docker-compose version 1.16.1, build 6d1ac21
 ```
 
 ### Run
-First of all, you need to checkout the project:
+In order to run this project, checkout this github repository:
 ```sh
 git clone https://github.com/ForumOrganisation/forumorg.git
 ```
 
-Then you need to fill the following environment variables in a `.env` file at the root of the project:
+And fill the following environment variables in a `.env` file at the root of the project:
 
 ```sh
 BUCKET_NAME="bucket_name" # Required: S3 bucket name
@@ -34,17 +34,23 @@ SENDGRID_API_KEY="sendgrid_key" # Optional: for emailing events
 RECAPTCHA_SECRET_KEY="recaptcha_key" # Optional: for recaptcha forms
 ```
 
-Finally, run `docker-compose up -d` and your app should be deployed at http://localhost:5000
+To start the application, run `docker-compose up -d` and your app should be deployed at http://localhost:5000 !
 
-### Develop
-* Change some files, make some code then refresh the page: you should see your changes applied!
-* Log your app behaviour by inspecting it with `docker-compose logs web`
-* Commit at the end of your work and follow the deploy steps.
+If you want to access the terminal input/output of the application:
+
+```sh
+docker exec -ti $(docker ps | grep web | awk '{print $1}') sh
+```
+
+Note: for access to logs, run `docker-compose logs -f web`
+
+You're now ready to write some code, your changes should be reflected in the application :) !
 
 ### Deploy
-We use Heroku for Cloud hosting and Continuous Integration.
 
-#### Heroku CLI
+#### Heroku
+The application is currently deployed on Heroku.
+
 The Heroku Command Line Interface (CLI) makes it easy to create and manage your Heroku apps directly from the terminal.
 It’s an essential part of using Heroku. Install it by following [these guidelines](https://devcenter.heroku.com/articles/heroku-cli#download-and-install).
 
