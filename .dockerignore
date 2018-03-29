@@ -1,11 +1,15 @@
+# Junk files
 *.py[co]
 *.DS_*
-
-# Packages
-.env
 messages.pot
 
-# Docker
-Dockerfile
-docker-compose.yml
-.dockerignore
+# Credentials
+.env
+
+# Heavy assets
+app/static/.webassets-cache
+app/static/bower_components
+app/static/build
+
+# Mongodb
+data/mongodb

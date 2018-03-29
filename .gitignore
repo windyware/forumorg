@@ -1,17 +1,15 @@
+# Junk files
 *.py[co]
 *.DS_*
-
-# Packages
-
-.env
-/env
 messages.pot
-app/static/.webassets-cache/
 
-# Bower
-app/static/bower_components/*
-!app/static/bower_components/intl-tel-input
-app/static/bower_components/intl-tel-input/*
-!app/static/bower_components/intl-tel-input/build
-app/static/bower_components/intl-tel-input/build/*
-!app/static/bower_components/intl-tel-input/build/img
+# Credentials
+.env
+
+# Heavy assets
+app/static/.webassets-cache
+app/static/bower_components
+app/static/build
+
+# Mongodb
+data/mongodb
