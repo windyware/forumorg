@@ -1,10 +1,5 @@
 FROM python:alpine
 
-# Setting environement variables from docker-compose
-ARG PORT
-ARG MONGODB_URI
-ARG DEBUG
-
 # Installing packages
 RUN apk update \
     && apk add --no-cache --virtual .build_deps \
@@ -12,9 +7,9 @@ RUN apk update \
     build-base python3-dev libffi-dev \
     # Enable Pillow pip dependency
     zlib-dev jpeg-dev \
-    # Enable npm
+    # Install npm
     nodejs \
-    # Enable git
+    # Install git
     git
 
 RUN npm install -g bower
@@ -26,10 +21,12 @@ COPY ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install bower & dependencies
-COPY . $APP_DIR
+COPY ./bower.json .
+COPY ./.bowerrc .
 RUN bower install --allow-root --config.interactive=false -f bower.json
 
-# Build assets
-RUN python manage.py assets build
+# Copy source code
+COPY . ./
 
+# Run application
 CMD ["gunicorn", "app:app"]
