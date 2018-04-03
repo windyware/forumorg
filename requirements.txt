@@ -17,7 +17,7 @@ Flask-BabelEx==0.9.3
 Flask-Bcrypt==0.7.1
 Flask-CDN==1.5.3
 Flask-Login==0.4.0
-Flask-QRcode==1.0.1
+Flask-QRcode==2.0.2
 Flask-Script==2.0.6
 Flask-SSLify==0.1.5
 gunicorn==19.7.1
