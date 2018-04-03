@@ -32,7 +32,7 @@ olefile==0.44
 Pillow==5.0.0
 pycparser==2.18
 pymongo==3.6.1
-python-dateutil==2.7.1
+python-dateutil==2.7.2
 python-http-client==3.0.0
 pytz==2018.3
 qrcode==6.0
